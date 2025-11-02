@@ -1,0 +1,10 @@
+telethon
+python-telegram-bot
+faiss-cpu
+sentence-transformers
+transformers
+accelerate
+bitsandbytes
+axolotl
+vllm
+python-dotenv
