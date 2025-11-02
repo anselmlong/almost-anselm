@@ -1,0 +1,7 @@
+# Placeholder QLoRA / axolotl configuration
+model:
+  base_model: "meta-llama/Llama-2-7b-chat-hf"
+training:
+  micro_batch_size: 4
+  gradient_accumulation_steps: 8
+  lr: 2e-5
