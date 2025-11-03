@@ -1,0 +1,42 @@
+=== ENV ===
+xgpd0
+Tue Nov  4 04:01:10 AM +08 2025
+/home/a/anselm/almost-anselm/venv/bin/python
+Python 3.12.3
+pip 25.3 from /home/a/anselm/almost-anselm/venv/lib/python3.12/site-packages/pip (python 3.12)
+
+=== NVIDIA SMI ===
+Tue Nov  4 04:01:10 2025       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA TITAN V                 On  |   00000000:3B:00.0 Off |                  N/A |
+| 28%   32C    P8             24W /  250W |       1MiB /  12288MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+=== Python CUDA sanity check ===
+Python: 3.12.3 (main, Aug 14 2025, 17:47:21) [GCC 13.3.0]
+Platform: Linux-6.8.0-87-generic-x86_64-with-glibc2.39
+Torch version: 2.6.0+cu124
+Torch CUDA version (built with): 12.4
+CUDA available: True
+CUDA device count: 1
+Device 0: NVIDIA TITAN V
+CUDA tensor OK, sum: 170.09457397460938
+
+=== bitsandbytes check (optional) ===
+bitsandbytes version: 0.47.0
+bitsandbytes CUDA setup OK.
