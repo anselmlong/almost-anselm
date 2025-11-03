@@ -1,8 +1,8 @@
-base_model: mistral-7b-v0.1
+base_model: mistralai/Mistral-7B-v0.1
 model_type: mistral
-load_in_4bit: true
 
 trust_remote_code: true
+load_in_4bit: true
 torch_dtype: float16
 
 dataset:
@@ -15,30 +15,12 @@ tokenizer:
   add_eos_token: true
   add_bos_token: true
 
-sequence:
-  max_length: 2048
-  # pack samples together efficiently
-  sample_packing: true
+sequence_length: 2048
+sample_packing: true
 
-training:
-  output_dir: models/base
-  num_epochs: 1
-  per_device_train_batch_size: 1
-  gradient_accumulation_steps: 16   # boosts effective batch size
-  learning_rate: 1e-4
-  lr_scheduler: cosine
-  warmup_steps: 100
-  logging_steps: 50
-  eval_steps: 1000
-  save_steps: 1000
-  save_total_limit: 3
-  bf16: false
-  fp16: true
-  gradient_checkpointing: true
-  optim: paged_adamw_32bit
+adapter: lora
 
-lora:
-  enabled: true
+peft:
   r: 16
   lora_alpha: 32
   lora_dropout: 0.05
@@ -50,3 +32,26 @@ lora:
     - gate_proj
     - up_proj
     - down_proj
+
+bnb_4bit_quantization_config:
+  bnb_4bit_compute_dtype: float16
+  bnb_4bit_use_double_quant: true
+  bnb_4bit_quant_type: nf4
+
+training:
+  output_dir: models/mistral-telegram
+  num_train_epochs: 1
+  per_device_train_batch_size: 1
+  gradient_accumulation_steps: 16
+  learning_rate: 1e-4
+  lr_scheduler_type: cosine
+  warmup_steps: 100
+  logging_steps: 50
+  eval_steps: 500
+  save_steps: 500
+  save_total_limit: 3
+
+  fp16: true
+  bf16: false
+  gradient_checkpointing: true
+  optim: paged_adamw_32bit
