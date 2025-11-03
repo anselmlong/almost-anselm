@@ -9,25 +9,25 @@ This checklist tracks the full pipeline from Telegram export → persona fine-tu
 - [X] Clone repository + set up folder structure
 - [X] Create Python virtual env (`python -m venv venv`)
 - [X] Install dependencies (`pip install -r requirements.txt`)
-- [ ] Fill in `.env` using `.env.example` template
-  - `TG_API_ID`, `TG_API_HASH` (Telegram)
-  - `BOT_TOKEN` (Telegram BotFather)
-  - `HF_TOKEN` (Hugging Face, optional)
+- [X] Fill in `.env` using `.env.example` template
+  - [X] `TG_API_ID`, `TG_API_HASH` (Telegram)
+  - [ ] `BOT_TOKEN` (Telegram BotFather)
+  - [ ] `HF_TOKEN` (Hugging Face, optional)
 
 ---
 
 ## 📥 Phase 1 — Data Collection
 
-- [ ] Use `pull_telegram.py` to fetch cloud messages
-  - [ ] Limit message scope (DMs, selected groups)
-- [ ] Validate message quality: fields present (text, timestamp, sender etc.)
-- [ ] Store raw data in `data/raw/messages.json`
+- [X] Use `pull_telegram.py` to fetch cloud messages
+  - [X] Limit message scope (DMs, selected groups)
+- [X] Validate message quality: fields present (text, timestamp, sender etc.)
+- [X] Store raw data in `data/raw/messages.json`
 
 ---
 
 ## 🛁 Phase 2 — Data Cleaning & Anonymization
 
-- [ ] Implement `anonymize.py`:
+- [ ] Implement `build_dataset.py`:
   - [ ] Replace other users’ identifiers with pseudonyms (`user_XXXX`)
   - [ ] Remove or mask:
     - PII (phone, email)
