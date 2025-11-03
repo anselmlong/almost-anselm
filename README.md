@@ -159,15 +159,6 @@ See: **TODO.md**
 
 ---
 
-## 🛣️ Roadmap
-
-- Voice clone integration (TTS)
-- Web dashboard for training + memory
-- Multiple persona modes
-- Continuous online RL with guardrails
-
----
-
 ## 🙌 Contributing
 
 PRs welcome — especially around:
@@ -178,3 +169,9 @@ PRs welcome — especially around:
 ---
 
 ### ⭐ Give a star if you like this project!
+
+--- 
+
+## References
+
+https://medium.com/data-science-collective/i-fine-tuned-an-llm-on-5-years-of-telegram-chats-7bacb66387c8
