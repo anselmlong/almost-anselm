@@ -27,29 +27,24 @@ This checklist tracks the full pipeline from Telegram export → persona fine-tu
 
 ## 🛁 Phase 2 — Data Cleaning & Anonymization
 
-- [ ] Implement `build_dataset.py`:
-  - [ ] Replace other users’ identifiers with pseudonyms (`user_XXXX`)
-  - [ ] Remove or mask:
+- [X] Implement `build_dataset.py`:
+  - [X] Replace other users’ identifiers with pseudonyms (`user_XXXX`)
+  - [X] Remove or mask:
     - PII (phone, email)
-    - Sensitive URLs
-- [ ] Filter messages:
-  - [ ] Remove media-only messages
-  - [ ] Optional: Keep emoji-only replies if stylistic
-- [ ] Re-save cleaned dataset: `data/raw/messages_clean.json`
+- [X] Re-save cleaned dataset: `data/raw/messages_clean.json`
 
 ---
 
 ## 🧩 Phase 3 — Dataset Construction for SFT
 
-- [ ] Implement windowed pairing (context → your reply)
-  - [ ] Choose window size (default: 6–10 exchanges)
-- [ ] Add system prompt indicating style + persona
-- [ ] Split into:
-  - [ ] train (80%)
-  - [ ] val (10%)
-  - [ ] test (10%) by thread ID
-- [ ] Save final formatted dataset → `data/processed/sft_data.json`
-- [ ] Create dataset stats (count, avg length, distribution)
+- [X] Implement windowed pairing (context → your reply)
+  - [X] Choose window size (default: 6–10 exchanges)
+- [X] Add system prompt indicating style + persona
+- [X] Split into:
+  - [X] train (90%)
+  - [X] val (5%)
+  - [X] test (5%) by thread ID
+- [X] Save final formatted dataset and splitted → `data/processed/sft_data.json`
 
 ---
 

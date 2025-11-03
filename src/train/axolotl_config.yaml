@@ -1,7 +1,52 @@
-# Placeholder QLoRA / axolotl configuration
-model:
-  base_model: "meta-llama/Llama-2-7b-chat-hf"
+base_model: mistral-7b-v0.1
+model_type: mistral
+load_in_4bit: true
+
+trust_remote_code: true
+torch_dtype: float16
+
+dataset:
+  train: data/processed/sft_train.json
+  val: data/processed/sft_val.json
+  test: data/processed/sft_test.json
+dataset_format: chatml
+
+tokenizer:
+  add_eos_token: true
+  add_bos_token: true
+
+sequence:
+  max_length: 2048
+  # pack samples together efficiently
+  sample_packing: true
+
 training:
-  micro_batch_size: 4
-  gradient_accumulation_steps: 8
-  lr: 2e-5
+  output_dir: models/base
+  num_epochs: 1
+  per_device_train_batch_size: 1
+  gradient_accumulation_steps: 16   # boosts effective batch size
+  learning_rate: 1e-4
+  lr_scheduler: cosine
+  warmup_steps: 100
+  logging_steps: 50
+  eval_steps: 1000
+  save_steps: 1000
+  save_total_limit: 3
+  bf16: false
+  fp16: true
+  gradient_checkpointing: true
+  optim: paged_adamw_32bit
+
+lora:
+  enabled: true
+  r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  target_modules:
+    - q_proj
+    - k_proj
+    - v_proj
+    - o_proj
+    - gate_proj
+    - up_proj
+    - down_proj
