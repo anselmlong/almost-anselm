@@ -2,12 +2,16 @@ import json
 import re
 import hashlib
 from dotenv import load_dotenv
+from pathlib import Path
+from typing import Union, List, Any
 
 load_dotenv()
 
 WINDOW = 6
-RAW_PATH = "../../data/raw/messages_clean.json"
+RAW_PATH = "../../data/raw/messages.json"
 OUT_PATH = "../../data/processed/cleaned_messages.json"
+
+
 
 def normalize_text(text: str) -> str:
     # Mask obvious PII
@@ -23,7 +27,7 @@ def pseudo(sender_id: int, my_id: int) -> str:
     return f"user_{h[-4:]}"
 
 def build_dataset():
-    raw = json.load(open(RAW_PATH))
+    raw = load_json_robust(RAW_PATH)
     my_id = next((m["sender_id"] for m in raw if m["is_out"]), None)
 
     samples = []
@@ -61,9 +65,43 @@ def build_dataset():
             "output": target_text
         }
         samples.append(sample)
+        print (f"Sample {i} out of {len(raw) - WINDOW}: {ctx_lines} -> {target_text}")
 
     json.dump(samples, open(OUT_PATH, "w"), ensure_ascii=False, indent=2)
     print(f"✅ Built {len(samples)} samples!")
+
+def load_json_robust(path: Union[str, Path], *, allow_ndjson: bool = True, replace_invalid: bool = False) -> Any:
+    p = Path(path)
+    if not p.exists():
+        raise FileNotFoundError(p)
+
+    # Read with UTF-8, optionally replace invalid bytes rather than raising
+    errors = "replace" if replace_invalid else "strict"
+    text = p.read_text(encoding="utf-8", errors=errors)
+
+    # Strip BOM if present
+    if text.startswith("\ufeff"):
+        text = text.lstrip("\ufeff")
+
+    text = text.strip()
+    if not text:
+        raise ValueError(f"Empty JSON file: {p}")
+
+    # Try normal JSON first
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        # If NDJSON (newline-delimited), parse each non-empty line
+        if allow_ndjson:
+            lines = [ln for ln in text.splitlines() if ln.strip()]
+            if not lines:
+                raise
+            try:
+                return [json.loads(ln) for ln in lines]
+            except Exception:
+                # If even NDJSON parsing failed, re-raise original exception
+                raise
+        raise
 
 if __name__ == "__main__":
     build_dataset()
