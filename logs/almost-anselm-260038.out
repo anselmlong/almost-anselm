@@ -1,0 +1,241 @@
+Starting training!
+/home/a/anselm/almost-anselm/venv/lib/python3.12/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+The following values were not passed to `accelerate launch` and had defaults used instead:
+	`--num_processes` was set to a value of `1`
+	`--num_machines` was set to a value of `1`
+	`--mixed_precision` was set to a value of `'no'`
+	`--dynamo_backend` was set to a value of `'no'`
+To avoid this warning pass in values for each of the problematic parameters or run `accelerate config`.
+/home/a/anselm/almost-anselm/venv/lib/python3.12/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[2025-11-04 05:15:08,157] [INFO] [axolotl.utils.schemas.validation.check_eval_packing:119] [PID:40862] [RANK:0] explicitly setting `eval_sample_packing` to match `sample_packing`[39m
+[2025-11-04 05:15:08,157] [INFO] [axolotl.utils.schemas.validation.hint_sample_packing_padding:218] [PID:40862] [RANK:0] Setting `pad_to_sequence_len: true` to prevent memory leaks when sample_packing[39m
+[2025-11-04 05:15:08,665] [INFO] [axolotl.cli.config.load_cfg:245] [PID:40862] [RANK:0] config:
+{
+  "activation_offloading": false,
+  "adapter": "qlora",
+  "axolotl_config_path": "configs/simple_axolotl.yaml",
+  "base_model": "mistralai/Mistral-7B-v0.1",
+  "base_model_config": "mistralai/Mistral-7B-v0.1",
+  "batch_size": 8,
+  "bf16": true,
+  "capabilities": {
+    "bf16": true,
+    "compute_capability": "sm_75",
+    "fp8": false,
+    "n_gpu": 1,
+    "n_node": 1
+  },
+  "context_parallel_size": 1,
+  "dataloader_num_workers": 1,
+  "dataloader_pin_memory": true,
+  "dataloader_prefetch_factor": 256,
+  "dataset_prepared_path": "last_run_prepared",
+  "dataset_processes": 48,
+  "datasets": [
+    {
+      "message_property_mappings": {
+        "content": "content",
+        "role": "role"
+      },
+      "path": "data/processed/sft_train.json",
+      "trust_remote_code": false,
+      "type": "chatml"
+    },
+    {
+      "message_property_mappings": {
+        "content": "content",
+        "role": "role"
+      },
+      "path": "data/processed/sft_val.json",
+      "trust_remote_code": false,
+      "type": "chatml"
+    }
+  ],
+  "ddp": false,
+  "device": "cuda:0",
+  "dion_rank_fraction": 1.0,
+  "dion_rank_multiple_of": 1,
+  "env_capabilities": {
+    "torch_version": "2.6.0"
+  },
+  "eval_batch_size": 2,
+  "eval_causal_lm_metrics": [
+    "sacrebleu",
+    "comet",
+    "ter",
+    "chrf"
+  ],
+  "eval_max_new_tokens": 128,
+  "eval_sample_packing": true,
+  "eval_steps": 0.25,
+  "eval_table_size": 0,
+  "evals_per_epoch": 4,
+  "flash_attention": true,
+  "fp16": false,
+  "gradient_accumulation_steps": 4,
+  "gradient_checkpointing": true,
+  "gradient_checkpointing_kwargs": {
+    "use_reentrant": true
+  },
+  "is_falcon_derived_model": false,
+  "is_llama_derived_model": false,
+  "is_mistral_derived_model": true,
+  "learning_rate": 0.0002,
+  "lisa_layers_attribute": "model.layers",
+  "load_best_model_at_end": false,
+  "load_in_4bit": true,
+  "load_in_8bit": false,
+  "local_rank": 0,
+  "logging_steps": 1,
+  "lora_alpha": 16,
+  "lora_dropout": 0.05,
+  "lora_r": 32,
+  "lora_target_linear": true,
+  "lora_target_modules": [
+    "gate_proj",
+    "down_proj",
+    "up_proj",
+    "q_proj",
+    "v_proj",
+    "k_proj",
+    "o_proj"
+  ],
+  "loraplus_lr_embedding": 1e-06,
+  "loss_watchdog_patience": 3,
+  "loss_watchdog_threshold": 5.0,
+  "lr_scheduler": "cosine",
+  "max_prompt_len": 512,
+  "mean_resizing_embeddings": false,
+  "micro_batch_size": 2,
+  "model_config_type": "mistral",
+  "num_epochs": 1.0,
+  "optimizer": "adamw_bnb_8bit",
+  "output_dir": "models/base",
+  "pad_to_sequence_len": true,
+  "pretrain_multipack_attn": true,
+  "pretrain_multipack_buffer_size": 10000,
+  "profiler_steps_start": 0,
+  "qlora_sharded_model_loading": false,
+  "ray_num_workers": 1,
+  "resources_per_worker": {
+    "GPU": 1
+  },
+  "sample_packing": true,
+  "sample_packing_bin_size": 200,
+  "sample_packing_group_size": 100000,
+  "save_only_model": false,
+  "save_safetensors": true,
+  "saves_per_epoch": 1,
+  "sequence_len": 8192,
+  "shuffle_before_merging_datasets": false,
+  "shuffle_merged_datasets": true,
+  "skip_prepare_dataset": false,
+  "strict": false,
+  "tensor_parallel_size": 1,
+  "tf32": false,
+  "tiled_mlp_use_original_mlp": true,
+  "tokenizer_config": "mistralai/Mistral-7B-v0.1",
+  "tokenizer_type": "LlamaTokenizer",
+  "torch_dtype": "torch.bfloat16",
+  "train_on_inputs": false,
+  "trl": {
+    "log_completions": false,
+    "mask_truncated_completions": false,
+    "ref_model_mixup_alpha": 0.9,
+    "ref_model_sync_steps": 64,
+    "scale_rewards": true,
+    "sync_ref_model": false,
+    "use_vllm": false,
+    "vllm_server_host": "0.0.0.0",
+    "vllm_server_port": 8000
+  },
+  "type_of_model": "MistralForCausalLM",
+  "use_ray": false,
+  "val_set_size": 0.1,
+  "vllm": {
+    "device": "auto",
+    "dtype": "auto",
+    "gpu_memory_utilization": 0.9,
+    "host": "0.0.0.0",
+    "port": 8000
+  },
+  "warmup_ratio": 0.1,
+  "weight_decay": 0.0,
+  "world_size": 1
+}[39m
+[33m[2025-11-04 05:15:08,670] [WARNING] [axolotl.cli.checks.check_user_token:46] [PID:40862] [RANK:0] Error verifying HuggingFace token. Remember to log in using `huggingface-cli login` and get your access token from https://huggingface.co/settings/tokens if you want to use gated models or datasets.[39m
+[2025-11-04 05:15:13,074] [INFO] [axolotl.loaders.tokenizer.load_tokenizer:300] [PID:40862] [RANK:0] No Chat template selected. Consider adding a chat template for easier inference.[39m
+[2025-11-04 05:15:13,084] [INFO] [axolotl.utils.data.shared.load_preprocessed_dataset:478] [PID:40862] [RANK:0] Unable to find prepared dataset in last_run_prepared/613bdcb1c4149ef8c57212c035e9a3f8[39m
+[2025-11-04 05:15:13,084] [INFO] [axolotl.utils.data.sft._load_raw_datasets:314] [PID:40862] [RANK:0] Loading raw datasets...[39m
+[33m[2025-11-04 05:15:13,084] [WARNING] [axolotl.utils.data.sft._load_raw_datasets:316] [PID:40862] [RANK:0] Processing datasets during training can lead to VRAM instability. Please pre-process your dataset using `axolotl preprocess path/to/config.yml`.[39m
+Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 87696 examples [00:01, 59273.78 examples/s]Generating train split: 87696 examples [00:01, 55676.31 examples/s]
+[2025-11-04 05:15:15,707] [INFO] [axolotl.utils.data.wrappers.get_dataset_wrapper:88] [PID:40862] [RANK:0] Loading dataset: data/processed/sft_train.json with base_type: chatml and prompt_style: None[39m
+[31m[2025-11-04 05:15:15,708] [ERROR] [axolotl.utils.data.wrappers.handle_unknown_dataset_strategy:53] [PID:40862] [RANK:0] unhandled prompt tokenization strategy: chatml. [39m
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/a/anselm/almost-anselm/venv/lib/python3.12/site-packages/axolotl/cli/train.py", line 120, in <module>
+    fire.Fire(do_cli)
+  File "/home/a/anselm/almost-anselm/venv/lib/python3.12/site-packages/fire/core.py", line 135, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/a/anselm/almost-anselm/venv/lib/python3.12/site-packages/fire/core.py", line 468, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/home/a/anselm/almost-anselm/venv/lib/python3.12/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/a/anselm/almost-anselm/venv/lib/python3.12/site-packages/axolotl/cli/train.py", line 88, in do_cli
+    return do_train(parsed_cfg, parsed_cli_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/a/anselm/almost-anselm/venv/lib/python3.12/site-packages/axolotl/cli/train.py", line 42, in do_train
+    dataset_meta = load_datasets(cfg=cfg, cli_args=cli_args)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/a/anselm/almost-anselm/venv/lib/python3.12/site-packages/axolotl/common/datasets.py", line 60, in load_datasets
+    train_dataset, eval_dataset, total_num_steps, prompters = prepare_datasets(
+                                                              ^^^^^^^^^^^^^^^^^
+  File "/home/a/anselm/almost-anselm/venv/lib/python3.12/site-packages/axolotl/utils/data/utils.py", line 50, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/a/anselm/almost-anselm/venv/lib/python3.12/site-packages/axolotl/utils/data/sft.py", line 68, in prepare_datasets
+    return _prepare_standard_dataset(cfg, tokenizer, processor, preprocess_iterable)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/a/anselm/almost-anselm/venv/lib/python3.12/site-packages/axolotl/utils/data/sft.py", line 104, in _prepare_standard_dataset
+    train_dataset, eval_dataset, prompters = loader.load(_load_datasets)
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/a/anselm/almost-anselm/venv/lib/python3.12/site-packages/axolotl/utils/data/lock.py", line 38, in load
+    result = load_fn()
+             ^^^^^^^^^
+  File "/home/a/anselm/almost-anselm/venv/lib/python3.12/site-packages/axolotl/utils/data/sft.py", line 81, in _load_datasets
+    train_dataset, eval_dataset, prompters = _load_and_prepare_datasets(
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/a/anselm/almost-anselm/venv/lib/python3.12/site-packages/axolotl/utils/data/sft.py", line 497, in _load_and_prepare_datasets
+    dataset, prompters = _load_tokenized_prepared_datasets(
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/a/anselm/almost-anselm/venv/lib/python3.12/site-packages/axolotl/utils/data/sft.py", line 293, in _load_tokenized_prepared_datasets
+    dataset, prompters = _load_raw_datasets(
+                         ^^^^^^^^^^^^^^^^^^^
+  File "/home/a/anselm/almost-anselm/venv/lib/python3.12/site-packages/axolotl/utils/data/sft.py", line 325, in _load_raw_datasets
+    dataset_wrapper, dataset_prompter = _load_and_process_single_dataset(
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/a/anselm/almost-anselm/venv/lib/python3.12/site-packages/axolotl/utils/data/sft.py", line 395, in _load_and_process_single_dataset
+    dataset_wrapper, dataset_prompter = get_dataset_wrapper(
+                                        ^^^^^^^^^^^^^^^^^^^^
+  File "/home/a/anselm/almost-anselm/venv/lib/python3.12/site-packages/axolotl/utils/data/wrappers.py", line 132, in get_dataset_wrapper
+    handle_unknown_dataset_strategy(dataset_config)
+  File "/home/a/anselm/almost-anselm/venv/lib/python3.12/site-packages/axolotl/utils/data/wrappers.py", line 54, in handle_unknown_dataset_strategy
+    raise ValueError(error_message)
+ValueError: unhandled prompt tokenization strategy: chatml. 
+Traceback (most recent call last):
+  File "/home/a/anselm/almost-anselm/venv/bin/accelerate", line 7, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/a/anselm/almost-anselm/venv/lib/python3.12/site-packages/accelerate/commands/accelerate_cli.py", line 50, in main
+    args.func(args)
+  File "/home/a/anselm/almost-anselm/venv/lib/python3.12/site-packages/accelerate/commands/launch.py", line 1235, in launch_command
+    simple_launcher(args)
+  File "/home/a/anselm/almost-anselm/venv/lib/python3.12/site-packages/accelerate/commands/launch.py", line 823, in simple_launcher
+    raise subprocess.CalledProcessError(returncode=process.returncode, cmd=cmd)
+subprocess.CalledProcessError: Command '['/home/a/anselm/almost-anselm/venv/bin/python3', '-m', 'axolotl.cli.train', 'configs/simple_axolotl.yaml']' returned non-zero exit status 1.
