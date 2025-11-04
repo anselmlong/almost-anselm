@@ -1,3 +1,21 @@
+# Axolotl artifacts
+last_run_prepared/
+logs/
+models/
+outputs/
+runs/
+wandb/
+
+# HF Datasets cache
+**/*.arrow
+**/*.bin
+**/dataset_info.json
+**/state.json
+
+# Checkpoints
+checkpoint-*/
+*.safetensors
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
