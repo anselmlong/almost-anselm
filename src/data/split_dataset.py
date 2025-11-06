@@ -2,16 +2,19 @@ import json, os, random
 from datetime import datetime
 from collections import defaultdict
 
-IN_PATH = "../../data/processed/cleaned_messages.json"
-OUT_DIR = "../../data/processed"
-TRAIN_OUT = os.path.join(OUT_DIR, "sft_train.json")
-VAL_OUT   = os.path.join(OUT_DIR, "sft_val.json")
-TEST_OUT  = os.path.join(OUT_DIR, "sft_test.json")
+from pathlib import Path
+
+# Resolve paths from repo root (so script can be run from any CWD)
+REPO_ROOT = Path(__file__).resolve().parents[2]
+IN_PATH = REPO_ROOT / "data" / "processed" / "cleaned_messages.jsonl"
+OUT_DIR = REPO_ROOT / "data" / "processed"
+TRAIN_OUT = OUT_DIR / "sft_train_new.json"
+VAL_OUT = OUT_DIR / "sft_val_new.json"
 
 RNG_SEED = 42
-SPLITS = (0.90, 0.05, 0.05)  # train / val / test
-TIME_SPLIT = True            # set False to use grouped random
-TEST_IS_MOST_RECENT = True   # when TIME_SPLIT=True, put the most recent chunk into test
+SPLITS = (0.90, 0.10)  # train / val
+TIME_SPLIT = False         # set False to use grouped random
+TEST_IS_MOST_RECENT = True   # retained but test set will be discarded; most-recent logic kept for val ordering
 
 def parse_ts(sample):
     # Expect ISO timestamp at sample["metadata"]["timestamp"] or ["timestamp"]
@@ -48,22 +51,19 @@ def time_based_split(samples):
     with_ts.sort(key=lambda s: parse_ts(s))
     n = len(with_ts)
     n_train = int(SPLITS[0] * n)
-    n_val = int(SPLITS[1] * n)
-    n_test = n - n_train - n_val
+    # Put the remainder into val so train+val == n
+    n_val = n - n_train
 
     if TEST_IS_MOST_RECENT:
         train = with_ts[:n_train]
-        val   = with_ts[n_train:n_train+n_val]
-        test  = with_ts[n_train+n_val:]
+        val   = with_ts[n_train:]
     else:
-        # contiguous chronological blocks anyway
         train = with_ts[:n_train]
-        val   = with_ts[n_train:n_train+n_val]
-        test  = with_ts[n_train+n_val:]
+        val   = with_ts[n_train:]
 
     # append the timestamp-missing samples to train (or distribute if you prefer)
     train += without_ts
-    return train, val, test
+    return train, val
 
 def grouped_random_split(samples):
     random.seed(RNG_SEED)
@@ -80,53 +80,54 @@ def grouped_random_split(samples):
     groups = list(buckets.items())
     random.shuffle(groups)
 
-    train, val, test = [], [], []
+    train, val = [], []
     n_total = len(samples)
     n_train = int(SPLITS[0] * n_total)
-    n_val   = int(SPLITS[1] * n_total)
-    n_test = n_total - n_train - n_val
+    # ensure all samples accounted for
+    n_val   = n_total - n_train
     # Fill by whole groups to avoid leakage
     for _, grp in groups:
         # Place full groups into train/val/test in order until targets reach their sizes.
-        # Use per-split thresholds (not cumulative thresholds) to avoid overfilling the test split.
+        # Use per-split thresholds to avoid leakage. Fill train first, then val.
         if len(train) < n_train:
             train.extend(grp)
-        elif len(val) < n_val:
-            val.extend(grp)
         else:
-            test.extend(grp)
+            val.extend(grp)
 
     # Distribute unknowns deterministically
     for i, s in enumerate(unknown_bucket):
         if len(train) < n_train:
             train.append(s)
-        elif len(val) < n_val:
-            val.append(s)
         else:
-            test.append(s)
+            val.append(s)
 
-    return train, val, test
+    return train, val
 
 def main():
+    # Support both JSON array and JSONL input
     with open(IN_PATH, "r", encoding="utf-8") as f:
-        data = json.load(f)
+        text = f.read()
+    try:
+        data = json.loads(text)
+    except json.JSONDecodeError:
+        # Try NDJSON / JSONL: one JSON object per line
+        data = [json.loads(line) for line in text.splitlines() if line.strip()]
 
     # Optional: sanity check on size
     print(f"Loaded {len(data)} samples")
 
     if TIME_SPLIT:
-        train, val, test = time_based_split(data)
+        train, val = time_based_split(data)
     else:
-        train, val, test = grouped_random_split(data)
+        train, val = grouped_random_split(data)
 
     # Trim if rounding pushed over
-    total = len(train) + len(val) + len(test)
-    print(f"Split sizes → train={len(train)}, val={len(val)}, test={len(test)} (total {total})")
+    total = len(train) + len(val)
+    print(f"Split sizes → train={len(train)}, val={len(val)} (total {total})")
 
     write_json(TRAIN_OUT, train)
     write_json(VAL_OUT, val)
-    write_json(TEST_OUT, test)
-    print(f"✅ Saved:\n  {TRAIN_OUT}\n  {VAL_OUT}\n  {TEST_OUT}")
+    print(f"✅ Saved:\n  {TRAIN_OUT}\n  {VAL_OUT}")
 
 if __name__ == "__main__":
     main()
