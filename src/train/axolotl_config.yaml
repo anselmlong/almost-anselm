@@ -11,11 +11,11 @@ adapter: lora
 datasets:
   - path: data/processed/sft_train_new.jsonl
     type: chat
-    conversation_template: chatml
+    chat_template: chatml
     train: true
   - path: data/processed/sft_val_new.jsonl
     type: chat
-    conversation_template: chatml 
+    chat_template: chatml 
     validation: true
 
 tokenizer:
