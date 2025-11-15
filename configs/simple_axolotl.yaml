@@ -8,18 +8,14 @@ tokenizer_type: LlamaTokenizer
 load_in_8bit: false
 load_in_4bit: true
 
+chat_template: chatml
 datasets:
-  - path: data/processed/sft_train_chatml.20k.jsonl
+  - path: data/processed/sft_train_new.jsonl
     type: chat_template
-
-    # step 1
-    chat_template: chatml
-
-    # step 2
-    field_messages: messages
+    field_messages: conversations
     message_property_mappings:
-      role: role
-      content: content
+      role: from
+      content: value
 
     roles:
       assistant:
