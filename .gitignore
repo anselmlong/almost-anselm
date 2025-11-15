@@ -6,6 +6,9 @@ outputs/
 runs/
 wandb/
 
+# Telegram
+*.session
+
 # HF Datasets cache
 **/*.arrow
 **/*.bin
