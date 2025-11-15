@@ -16,7 +16,7 @@ cd $HOME/almost-anselm
 source venv/bin/activate
 
 echo "Starting training!"
-accelerate launch -m axolotl.cli.train configs/simple_axolotl.yaml
+accelerate launch -m axolotl.cli.train configs/axolotl_config.yaml
 
 
 
