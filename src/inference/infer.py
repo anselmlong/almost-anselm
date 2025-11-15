@@ -5,6 +5,7 @@ import torch
 base_model = "mistralai/Mistral-7B-v0.1"
 lora_path = "/home/a/anselm/almost-anselm/models/base"  # your checkpoint folder
 
+# Using mistral tokenizer
 tokenizer = AutoTokenizer.from_pretrained(base_model, trust_remote_code=True)
 
 model = AutoModelForCausalLM.from_pretrained(
@@ -23,11 +24,11 @@ model.eval()
 
 
 def chat(prompt: str):
-    formatted = f"<s>[INST] {prompt} [/INST]"
-    inputs = tokenizer(formatted, return_tensors="pt").to(model.device)
+    formatted_string = tokenizer.apply_chat_template(prompt, tokenize=False)
+    token_ids = tokenizer.apply_chat_template(formatted_string, tokenize=True, add_generation_prompt=True, return_tensors="pt")
     with torch.no_grad():
         outputs = model.generate(
-            **inputs,
+            **token_ids,
             do_sample=True,
             pad_token_id = tokenizer.eos_token_id,
             max_new_tokens=100,

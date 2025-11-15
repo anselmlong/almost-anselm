@@ -8,15 +8,15 @@ torch_dtype: float16
 
 adapter: lora
 
+chat_template: chatml
 datasets:
   - path: data/processed/sft_train_new.jsonl
-    type: chat
-    chat_template: chatml
-    train: true
-  - path: data/processed/sft_val_new.jsonl
-    type: chat
-    chat_template: chatml 
-    validation: true
+    type: chat_template
+    field_messages: conversations
+    message_property_mappings:
+      role: from
+      content: value
+    
 
 tokenizer:
   add_eos_token: true
@@ -28,16 +28,16 @@ cutoff_len: 768
 sample_packing: true
 
 training:
-  output_dir: models/base
+  output_dir: models/v2_safe
   num_epochs: 1
 
   micro_batch_size: 1
   batch_size: 16
   gradient_accumulation_steps: 16
 
-  learning_rate: 1e-4
+  learning_rate: 5e-5
   lr_scheduler: cosine
-  warmup_steps: 100
+  warmup_steps: 200
   logging_steps: 50
   eval_steps: 1000
   save_steps: 1000
@@ -46,12 +46,14 @@ training:
   gradient_checkpointing: true
   optim: adamw_bnb_8bit
   max_grad_norm: 1.0
-
+  loss_watchdog_threshold: 3.0
+  loss_watchdog_patience: 3
+  auto_resume_from_checkpoints: true
 
   peft:
-    r: 8
-    lora_alpha: 16
-    lora_dropout: 0.05
+    r: 16
+    lora_alpha: 32
+    lora_dropout: 0.1
     target_modules:
       - q_proj
       - k_proj
