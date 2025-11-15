@@ -12,7 +12,7 @@ chat_template: chatml
 datasets:
   - path: data/processed/sft_train_new.jsonl
     type: chat_template
-    field_messages: conversations
+    field_messages: messages
     message_property_mappings:
       role: from
       content: value
@@ -33,7 +33,7 @@ datasets:
 
 dataset_prepared_path: last_run_prepared
 val_set_size: 0.1
-output_dir: models/base 
+output_dir: models/base_v2
 
 adapter: qlora
 lora_model_dir:
