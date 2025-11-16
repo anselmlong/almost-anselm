@@ -3,7 +3,7 @@ from peft import PeftModel
 import torch
 
 base_model = "mistralai/Mistral-7B-v0.1"
-lora_path = "/home/a/anselm/almost-anselm/models/base"  # your checkpoint folder
+lora_path = "/home/a/anselm/almost-anselm/models/base_v2"  # your checkpoint folder
 
 # Using mistral tokenizer
 tokenizer = AutoTokenizer.from_pretrained(base_model, trust_remote_code=True)
