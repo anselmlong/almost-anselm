@@ -125,10 +125,10 @@ save_first_step: true  # uncomment this to validate checkpoint saving works with
 
 This model is a fine-tuned version of [mistralai/Mistral-7B-v0.1](https://huggingface.co/mistralai/Mistral-7B-v0.1) on the data/processed/sft_train_chatml.20k.jsonl dataset.
 It achieves the following results on the evaluation set:
-- Loss: 5.7282
-- Memory/max Mem Active(gib): 5.2
-- Memory/max Mem Allocated(gib): 5.2
-- Memory/device Mem Reserved(gib): 5.7
+- Loss: 0.6901
+- Memory/max Mem Active(gib): 6.62
+- Memory/max Mem Allocated(gib): 6.62
+- Memory/device Mem Reserved(gib): 7.2
 
 ## Model description
 
@@ -164,7 +164,8 @@ The following hyperparameters were used during training:
 |:-------------:|:------:|:----:|:---------------:|:-----------------:|:---------------:|:------------------:|
 | No log        | 0      | 0    | 4.6652          | 7.04              | 6.62            | 6.62               |
 | 4.6527        | 0.0001 | 1    | 4.6459          | 5.7               | 5.2             | 5.2                |
-| 6.5029        | 0.2567 | 577  | 5.7282          | 5.2               | 5.2             | 5.7                |
+| 6.5029        | 0.2567 | 577  | 5.7282          | 5.7               | 5.2             | 5.2                |
+| 0.5238        | 0.5001 | 1124 | 0.6901          | 6.62              | 6.62            | 7.2                |
 
 
 ### Framework versions
