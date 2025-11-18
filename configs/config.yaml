@@ -1,16 +1,15 @@
 base_model: mistralai/Mistral-7B-v0.1
 # optionally might have model_type or tokenizer_type
 model_type: MistralForCausalLM
-tokenizer_type: LlamaTokenizer
 # Automatically upload checkpoint and final model to HF
-# hub_model_id: username/custom_model_name
+hub_model_id: anselmlong/almost-anselm
 
 load_in_8bit: false
 load_in_4bit: true
 
 chat_template: chatml
 datasets:
-  - path: data/processed/sft_train_new.jsonl
+  - path: data/processed/sft_train_new.json
     type: chat_template
     field_messages: messages
     message_property_mappings:
