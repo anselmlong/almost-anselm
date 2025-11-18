@@ -9,7 +9,7 @@ from datetime import datetime
 load_dotenv()
 
 # Time window (seconds) and token budget per group
-TIME_WINDOW_SECONDS = 10 * 60  # 10 minutes
+TIME_WINDOW_SECONDS = 5 * 60  # 5 minutes
 MAX_TOKENS = 768
 
 # Paths (edit as needed)

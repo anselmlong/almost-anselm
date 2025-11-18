@@ -6,7 +6,7 @@ from pathlib import Path
 
 # Resolve paths from repo root (so script can be run from any CWD)
 REPO_ROOT = Path(__file__).resolve().parents[2]
-IN_PATH = REPO_ROOT / "data" / "processed" / "cleaned_messages.jsonl"
+IN_PATH = REPO_ROOT / "data" / "processed" / "cleaned_messages.json"
 OUT_DIR = REPO_ROOT / "data" / "processed"
 TRAIN_OUT = OUT_DIR / "sft_train_new.json"
 VAL_OUT = OUT_DIR / "sft_val_new.json"

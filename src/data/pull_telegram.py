@@ -18,6 +18,7 @@ api_hash = os.getenv("TG_API_HASH") or os.getenv("TELEGRAM_API_HASH")
 MIN_MY_MSGS = 100
 MAX_MEMBERS = 20  # ignore huge groups
 TARGET_YEAR = 2025
+MESSAGES_LIMIT = 5000
 
 # Paths (repo root relative)
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -124,7 +125,7 @@ async def pull_messages():
 
     for chat_id in selected_ids:
         print(f"📥 Pulling chat_id: {chat_id}")
-        async for msg in client.iter_messages(chat_id, reverse=True, limit=5000):
+        async for msg in client.iter_messages(chat_id, reverse=True, limit=MESSAGES_LIMIT):
             if not getattr(msg, "text", None):
                 continue
 
