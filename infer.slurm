@@ -5,5 +5,5 @@
 #SBATCH --output=logs/%x-%j.out
 
 echo "Starting Inference"
-axolotl inference configs/simple_axolotl.yaml --lora-model-dir="./models/base_v2"
+axolotl inference configs/config.yaml --lora-model-dir="./models/base_v4"
 

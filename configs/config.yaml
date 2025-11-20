@@ -2,6 +2,7 @@ base_model: mistralai/Mistral-7B-v0.1
 # optionally might have model_type or tokenizer_type
 model_type: MistralForCausalLM
 # Automatically upload checkpoint and final model to HF
+tokenizer_type: LlamaTokenizer
 hub_model_id: anselmlong/almost-anselm
 
 load_in_8bit: false
@@ -32,13 +33,13 @@ datasets:
 
 dataset_prepared_path: last_run_prepared
 val_set_size: 0.1
-output_dir: models/base_v2 
+output_dir: models/base_v4 
 
 adapter: qlora
 lora_model_dir:
 
-sequence_len: 1024
-sample_packing: false
+sequence_len: 768
+sample_packing: true
 
 
 lora_r: 32
