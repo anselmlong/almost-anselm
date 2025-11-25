@@ -8,5 +8,5 @@
 #SBATCH --output=logs/infer_%j.log
 
 source ~/almost-anselm/venv/bin/activate
-python src/inference/infer.py
 
+cat prompt.txt | axolotl inference configs/config.yaml --lora-model-dir="./models/base_v4"

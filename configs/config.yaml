@@ -5,7 +5,6 @@ model_type: MistralForCausalLM
 tokenizer_type: LlamaTokenizer
 hub_model_id: anselmlong/almost-anselm
 
-load_in_8bit: false
 load_in_4bit: true
 
 chat_template: chatml
@@ -33,23 +32,20 @@ datasets:
 
 dataset_prepared_path: last_run_prepared
 val_set_size: 0.1
-output_dir: models/base_v4 
+output_dir: models/base_v5 
 
 adapter: qlora
 lora_model_dir:
 
 sequence_len: 768
-sample_packing: true
+sample_packing: false
 
 
 lora_r: 32
 lora_alpha: 16
 lora_dropout: 0.05
-lora_target_linear: true
+lora_target_linear: false
 lora_target_modules:
-  - gate_proj
-  - down_proj
-  - up_proj
   - q_proj
   - v_proj
   - k_proj
