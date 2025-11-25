@@ -5,5 +5,6 @@
 #SBATCH --output=logs/%x-%j.out
 
 echo "Starting Inference"
+source ~/almost-anselm/venv/bin/activate
 axolotl inference configs/config.yaml --lora-model-dir="./models/base_v4"
 
