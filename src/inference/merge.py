@@ -4,7 +4,7 @@ from peft import PeftModel
 import time
 
 base_model_name = "mistralai/Mistral-7B-v0.1"
-adapter_path = "./models/base_v4"  # path to your LoRA adapter
+adapter_path = "./models/base_v5"  # path to your LoRA adapter
 
 print("[1/5] Loading base model...")
 base_model = AutoModelForCausalLM.from_pretrained(

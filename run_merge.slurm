@@ -9,7 +9,7 @@
 
 # Activate your environment
 cd $HOME/almost-anselm
-source venv/bin/activate
+source ~/axo-venv/bin/activate
 
 # Run merge script
 python3 src/inference/merge.py

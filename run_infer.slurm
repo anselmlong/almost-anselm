@@ -9,4 +9,4 @@
 
 source ~/almost-anselm/venv/bin/activate
 
-cat prompt.txt | axolotl inference configs/config.yaml --lora-model-dir="./models/base_v4"
+cat prompt.txt | axolotl inference configs/config.yaml --lora-model-dir="./models/base_v5"
