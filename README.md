@@ -1,8 +1,8 @@
 # 🤖 Anselm AI — Telegram Persona LLM
 
-A Telegram bot fine-tuned on my real conversation style, capable of chatting like me and continually improving via reinforcement feedback.
+A Telegram bot fine-tuned on my real conversation style, capable of chatting like me. Built with open-source tools: Axolotl, QLoRA, Mistral-7B, Telethon.
 
-**Note: This README is generated with AI tools. Will be refined as the project goes along.**
+**Note: This README is generated with AI tools.**
 
 ---
 
@@ -13,10 +13,7 @@ Pipeline:
 2. ✅ Clean + anonymize data
 3. ✅ Build supervised training dataset (context → your reply)
 4. ✅ Fine-tune a 7B model with QLoRA
-5. ✅ Add retrieval of similar past messages
-6. ✅ Deploy as a Telegram bot that chats like you
-7. ✅ RL preference tuning (“Would I reply like that?”)
-
+5. ✅ Run Inference with Axolotl
 ---
 
 ## 🧱 Tech Stack
@@ -25,23 +22,25 @@ Pipeline:
 |---------|------|
 | LLM Base | Mistral-7B-Instruct / Llama-3-8B-Instruct |
 | Fine-tuning | Axolotl + QLoRA |
-| Vector Store | FAISS |
-| Telegram Integration | Telethon + python-telegram-bot |
-| Inference | vLLM / Ollama |
-| Preferences | DPO / KTO |
+| Telegram Integration | Telethon |
+| Inference | Axolotl |
 
 ---
 
 ## 📦 Setup & Installation
 
 ### 1️⃣ Clone Repo
-    git clone https://github.com/yourusername/telegram-anselm-ai.git
-    cd telegram-anselm-ai
+    git clone https://github.com/anselmlong/almost-anselm.git
+    cd almost-anselm
 
-### 2️⃣ Create Virtual Environment
+### 2️⃣ Create Environment
+    # Using conda (recommended)
+    conda create -n anselm-ai python=3.10
+    conda activate anselm-ai
+    
+    # OR using venv
     python -m venv venv
     source venv/bin/activate  # Mac/Linux
-    venv\Scripts\activate     # Windows
 
 ### 3️⃣ Install Requirements
     pip install -r requirements.txt
@@ -67,106 +66,91 @@ Pull your Telegram messages:
 
 ---
 
-## 🛁 Anonymize & Clean
+## 🛁 Clean & Process Data
 
-    python anonymize.py
+    # Clean and anonymize messages
+    python src/data/build_dataset.py
+    
 
-➡ Output: `data/raw/messages_clean.json`
-
----
-
-## 📐 Dataset for SFT
-
-    python build_dataset.py
-
-➡ Output: `data/processed/sft_data.json`
+➡ Outputs: 
+- `data/processed/cleaned_messages.jsonl`
+- `data/processed/sft_train_new.jsonl`
+- `data/processed/sft_val_new.jsonl`
 
 ---
 
-## 🧪 Baseline Test (without training)
+## Inference
 
-Try inference with base model + prompt examples to establish style baseline.
+### Method 1: SLURM Inference Scripts
+    
+    # Parameterized (flexible)
+    sbatch param_infer.slurm "Your prompt here"
+    sbatch param_infer.slurm prompts_file.txt
 
----
+
+### Method 2: Original Axolotl Method
+    # Edit prompt.txt, then:
+    sbatch run_infer.slurm
+
+
 
 ## 🧠 QLoRA Fine-Tuning
 
-Ensure `axolotl_config.yaml` is configured correctly → dataset & LoRA params
+Configuration is in `configs/config.yaml` with QLoRA + Mistral-7B setup.
 
-    cd src/train
-    bash run_sft.sh
+### Local Training
+    
+    # Or direct training
+    accelerate launch -m axolotl.cli.train configs/config.yaml
+
+### SLURM Training
+    # Submit training job
+    sbatch train.slurm
+    
+    # Monitor progress
+    tail -f logs/almost-anselm-*.out
 
 ➡ Outputs:
-`models/adapters/` (LoRA adapters)
-
----
-
-## 🔍 Retrieval Augmentation
-
-    cd src/inference
-    python embed_store.py
-
-Bot now retrieves semantically similar past messages → more realistic style
-
----
-
-## 🤖 Telegram Bot Deployment
-
-    cd src/bot
-    python telegram_bot.py
-
-Talk with your AI persona in Telegram 🎉
+- `models/base_v5/` (LoRA adapters)
+- Training logs in `logs/`
 
 ---
 
 ## 🎯 Evaluation
 
 - Shuffle test (real vs. bot responses)
-- Classifier: “Anselm vs. Generic AI”
-- Track:
-  - Latency
-  - Hallucination rate
-  - Conversation quality
+- Human evaluation (chat quality, persona match)
 
----
+## 📁 Project Structure
 
-## ⚙️ RL Preferences: DPO / KTO
-
-Collect preference feedback:
-
-    python ../rl/collect_prefs.py
-
-Refine model:
-
-    python ../rl/run_dpo.py
-
-Republish updated persona — improves over time 🚀
-
----
-
-## 🔐 Privacy & Safety
-
-✔ Raw data stays local  
-✔ Other users are anonymized  
-✔ Add `/forget` to erase memory for any user  
-✔ Bot clearly states it is an AI version of Anselm
-
----
-
-## ✅ Progress Tracker
-
-See: **TODO.md**
-
----
-
-## 🙌 Contributing
-
-PRs welcome — especially around:
-- anonymization,
-- evaluation,
-- safety tooling.
-
----
+```
+almost-anselm/
+├── configs/
+│   └── config.yaml              # Axolotl training config
+├── data/
+│   ├── raw/                     # Original Telegram exports
+│   └── processed/               # Cleaned training data
+├── docs/                        # Documentation
+├── models/
+│   ├── base_v5/                 # LoRA adapters
+│   └── adapters/                # Model checkpoints
+├── src/
+│   ├── bot/
+│   │   └── telegram_bot.py      # Telegram bot (v22+ API)
+│   ├── data/
+│   │   ├── build_dataset.py     # Data processing
+│   │   ├── pull_telegram.py     # Message extraction
+│   │   └── split_dataset.py     # Train/val/test split
+│   └── inference/
+│       ├── chat.py              # Enhanced interactive chat
+│       ├── infer.py             # Basic inference
+│       ├── merge.py             # LoRA merging
+│       └── check_vllm.py        # vLLM testing
+├── notebooks/
+│   └── anselm_qLORA_train.ipynb # Training notebook
+├── *.slurm                      # SLURM job scripts
+└── logs/                        # Training/inference logs
+```
 
 ### ⭐ Give a star if you like this project!
 
