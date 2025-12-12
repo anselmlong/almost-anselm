@@ -1,6 +1,7 @@
-# 🤖 Anselm AI — Telegram Persona LLM
+# 🤖 Almost Anselm: Cloning my Telegram Personality by Fine Tuning an LLM
 
 A Telegram bot fine-tuned on my real conversation style, capable of chatting like me. Built with open-source tools: Axolotl, QLoRA, Mistral-7B, Telethon.
+Check out the full blog post here: [Almost Anselm](https://anselmlong.com/blog/almost-anselm)
 
 **Note: This README is generated with AI tools.**
 
@@ -154,8 +155,4 @@ almost-anselm/
 
 ### ⭐ Give a star if you like this project!
 
---- 
 
-## References
-
-https://medium.com/data-science-collective/i-fine-tuned-an-llm-on-5-years-of-telegram-chats-7bacb66387c8
