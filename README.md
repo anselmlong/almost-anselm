@@ -1,6 +1,6 @@
 # 🤖 Almost Anselm: Cloning my Telegram Personality by Fine Tuning an LLM
 
-[![Almost Anselm launch video](docs/launch.jpg)](docs/launch.mp4?raw=true)
+[![Almost Anselm launch video](docs/launch.jpg)](https://anselmlong.com/videos/launch/almost-anselm.mp4)
 
 <sub>▶ 20-second launch video (click to play)</sub>
 
