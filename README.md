@@ -1,5 +1,9 @@
 # 🤖 Almost Anselm: Cloning my Telegram Personality by Fine Tuning an LLM
 
+[![Almost Anselm launch video](docs/launch.jpg)](https://anselmlong.com/videos/launch/almost-anselm.mp4)
+
+<sub>▶ 20-second launch video (click to play)</sub>
+
 A Telegram bot fine-tuned on my real conversation style, capable of chatting like me. Built with open-source tools: Axolotl, QLoRA, Mistral-7B, Telethon.
 Check out the full blog post here: [Almost Anselm](https://anselmlong.com/blog/almost-anselm)
 
